@@ -1,0 +1,11 @@
+"use client";
+import { Check } from "lucide-react";
+import { useEffect, useRef, type ReactNode } from "react";
+import clsx from "clsx";
+import { vibrate } from "@/lib/haptics";
+interface OptionCardProps { label:string; description:string; selected:boolean; onToggle:()=>void; multi?:boolean; extra?:ReactNode; }
+export function OptionCard({label,description,selected,onToggle,multi,extra}:OptionCardProps){
+ const explanationRef=useRef<HTMLDivElement>(null); const hasMountedRef=useRef(false);
+ useEffect(()=>{if(!hasMountedRef.current){hasMountedRef.current=true;return;} if(!selected||!explanationRef.current)return; const el=explanationRef.current; const id=window.requestAnimationFrame(()=>{const rect=el.getBoundingClientRect(); const overflowBottom=rect.bottom-(window.innerHeight-100); if(overflowBottom>0)window.scrollBy({top:overflowBottom,left:0,behavior:"instant"});}); return()=>window.cancelAnimationFrame(id);},[selected]);
+ return <div><button type="button" onClick={()=>{vibrate();onToggle();}} aria-pressed={selected} className={clsx("focus-gold card card-hover w-full text-left px-3.5 py-2.5 flex items-center gap-2.5 transition-colors",selected?"border-accent bg-accent-soft":"")} style={selected?{borderColor:"var(--color-accent)"}:undefined}><span className={clsx("shrink-0 flex items-center justify-center border transition-colors",multi?"w-5 h-5 rounded-md":"w-5 h-5 rounded-full")} style={{borderColor:selected?"var(--color-gold)":"var(--color-border-strong)",background:selected?"var(--color-gold)":"transparent"}}>{selected&&<Check className="w-3.5 h-3.5" strokeWidth={3} style={{color:"#0a1f1c"}}/>}</span><span className="font-medium text-sm">{label}</span></button>{selected&&<div className="animate-slide-down"><div ref={explanationRef} className="mt-1.5 ml-1 pl-3.5 pr-3.5 py-2.5 text-[13px] leading-snug rounded-xl" style={{color:"var(--color-text-muted)",background:"var(--color-bg-elevated)",borderLeft:"2px solid var(--color-gold)"}}>{description}{extra}</div></div>}</div>;
+}
