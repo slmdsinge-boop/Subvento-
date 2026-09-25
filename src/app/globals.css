@@ -1,0 +1,35 @@
+@import "tailwindcss";
+:root {
+ --color-bg: #0a1f1c; --color-bg-elevated: #0f2924; --color-bg-card: #112e28; --color-bg-card-hover: #14372f;
+ --color-border: #1f3f37; --color-border-strong: #2a5148; --color-text: #eef4f1; --color-text-muted: #9fb8af; --color-text-faint: #6f8a81;
+ --color-accent: #2f6f5a; --color-accent-hover: #35805f; --color-accent-soft: #16342c; --color-gold: #c9a24a; --color-gold-hover: #d9b968; --color-gold-soft: #2a2418;
+ --color-success: #4caf7d; --color-warning: #d9a441; --color-error: #d9695a; --font-sans: var(--font-geist-sans); --font-mono: var(--font-geist-mono);
+}
+@theme inline {
+ --color-bg: var(--color-bg); --color-bg-elevated: var(--color-bg-elevated); --color-bg-card: var(--color-bg-card); --color-bg-card-hover: var(--color-bg-card-hover);
+ --color-border: var(--color-border); --color-border-strong: var(--color-border-strong); --color-text: var(--color-text); --color-text-muted: var(--color-text-muted); --color-text-faint: var(--color-text-faint);
+ --color-accent: var(--color-accent); --color-accent-hover: var(--color-accent-hover); --color-accent-soft: var(--color-accent-soft); --color-gold: var(--color-gold); --color-gold-hover: var(--color-gold-hover); --color-gold-soft: var(--color-gold-soft);
+ --color-success: var(--color-success); --color-warning: var(--color-warning); --color-error: var(--color-error); --font-sans: var(--font-sans); --font-mono: var(--font-mono);
+}
+* { box-sizing: border-box; }
+html { color-scheme: dark; }
+body { background: var(--color-bg); background-image: radial-gradient(ellipse 900px 500px at 15% -10%, rgba(47,111,90,.18), transparent 60%), radial-gradient(ellipse 700px 500px at 100% 0%, rgba(201,162,74,.06), transparent 55%); background-attachment: fixed; color: var(--color-text); font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif; }
+::selection { background: var(--color-accent); color:white; }
+::-webkit-scrollbar { width:10px; height:10px; } ::-webkit-scrollbar-track { background:var(--color-bg); } ::-webkit-scrollbar-thumb { background:var(--color-border-strong); border-radius:999px; } ::-webkit-scrollbar-thumb:hover { background:var(--color-accent); }
+.card { background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:1rem; }
+.card-hover { transition:background-color .15s ease,border-color .15s ease,transform .1s ease; } .card-hover:hover { background:var(--color-bg-card-hover); border-color:var(--color-border-strong); }
+.focus-gold:focus-visible { outline:2px solid var(--color-gold); outline-offset:2px; }
+@keyframes slide-down { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} } .animate-slide-down{animation:slide-down .22s ease-out}
+@keyframes fade-in { from{opacity:0} to{opacity:1} } .animate-fade-in{animation:fade-in .25s ease-out}
+@keyframes fade-up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} } .animate-fade-up{opacity:0;animation:fade-up .55s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes splash-logo-in { 0%{opacity:0;transform:scale(.6) rotate(-8deg)} 60%{opacity:1;transform:scale(1.08) rotate(2deg)} 100%{opacity:1;transform:scale(1) rotate(0)} }
+.animate-splash-logo{opacity:0;animation:splash-logo-in .6s cubic-bezier(.16,1,.3,1) forwards,splash-glow 1.8s ease-in-out .6s infinite}
+@keyframes splash-text-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} .animate-splash-text{opacity:0;animation:splash-text-in .5s ease-out .25s forwards}
+@keyframes splash-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,74,0)}50%{box-shadow:0 0 26px 6px rgba(201,162,74,.32)}} .animate-splash-glow{animation:splash-glow 1.8s ease-in-out infinite}
+@keyframes splash-shimmer-move{from{transform:translateX(-120%)}to{transform:translateX(350%)}} .animate-splash-shimmer{width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:splash-shimmer-move 1.2s ease-in-out infinite}
+@keyframes result-icon-pop{0%{opacity:0;transform:scale(.3) rotate(-10deg)}60%{opacity:1;transform:scale(1.15) rotate(4deg)}100%{opacity:1;transform:scale(1) rotate(0)}} .animate-result-pop{opacity:0;animation:result-icon-pop .55s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes confetti-burst{0%{transform:translate(-50%,-50%) scale(0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1) rotate(var(--rot));opacity:0}}
+.confetti-particle{position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:2px;animation:confetti-burst .9s cubic-bezier(.16,1,.3,1) forwards}
+.scan-frame{position:relative;border-radius:18px;border:2px solid rgba(255,255,255,.85);box-shadow:0 0 0 9999px rgba(0,0,0,.55)} .scan-frame-corner{position:absolute;width:26px;height:26px;border-color:var(--color-gold);border-style:solid;border-width:0}
+@keyframes scan-line-move{0%{top:6%;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:94%;opacity:0}} .scan-line{position:absolute;left:4%;right:4%;height:2px;background:linear-gradient(90deg,transparent,var(--color-gold),transparent);animation:scan-line-move 2.2s ease-in-out infinite}
+@keyframes capture-flash{from{opacity:.9}to{opacity:0}} .capture-flash{animation:capture-flash .3s ease-out forwards}
