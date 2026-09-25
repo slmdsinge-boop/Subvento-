@@ -10,6 +10,6 @@ export const metadata: Metadata = {
  title: "Subvento — Financez votre projet artistique",
  description: "Le guichet unique pour déposer vos dossiers de financement musical : CNM, SACEM, ADAMI, SPEDIDAM, DRAC.",
 };
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
  return (<html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}><body className="min-h-full flex flex-col bg-bg text-text"><AppSplash /><Header /><main className="flex-1 flex flex-col pb-20">{children}</main><BottomTabBar /></body></html>);
 }
