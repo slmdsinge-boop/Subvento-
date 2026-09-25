@@ -1,0 +1,9 @@
+"use client";
+import { WizardStepper } from "@/components/WizardStepper";
+import { WizardNav } from "@/components/WizardNav";
+import { OptionCard } from "@/components/OptionCard";
+import { useApplicationStore, ONBOARDING_STEPS } from "@/store/useApplicationStore";
+import { ONBOARDING_LABELS } from "@/lib/steps";
+import { isStepComplete } from "@/lib/progress";
+import { LEGAL_STATUSES, LEGAL_STATUS_LABELS, LEGAL_STATUS_DESCRIPTIONS, type LegalStatus } from "@/lib/schema";
+export default function OnboardingStatutPage(){const application=useApplicationStore(s=>s.application);const documents=useApplicationStore(s=>s.documents);const legalStatus=application.applicant_profile.legal_status;const updateProfile=useApplicationStore(s=>s.updateProfile);return <div><WizardStepper steps={ONBOARDING_STEPS} current="statut" basePath="/onboarding" labels={ONBOARDING_LABELS} isComplete={step=>isStepComplete(step,application,documents)}/><h1 className="text-xl font-semibold tracking-tight mb-1">Quel est votre statut juridique ?</h1><p className="text-sm mb-4" style={{color:"var(--color-text-muted)"}}>Cela détermine les justificatifs à fournir et les financeurs accessibles. Sélectionnez l&apos;option qui correspond à votre situation actuelle.</p><div className="flex flex-col gap-2">{LEGAL_STATUSES.map((status:LegalStatus)=><OptionCard key={status} label={LEGAL_STATUS_LABELS[status]} description={LEGAL_STATUS_DESCRIPTIONS[status]} selected={legalStatus===status} onToggle={()=>updateProfile({legal_status:status})}/>)}</div><WizardNav steps={ONBOARDING_STEPS} current="statut" basePath="/onboarding" canProceed={Boolean(legalStatus)}/></div>}
