@@ -1,3 +1,23 @@
-export type NotificationType = "info" | "success" | "warning";
-export interface AppNotification { id:string; title:string; message:string; type:NotificationType; createdAt:string; read:boolean; }
-export function makeNotification(title:string,message:string,type:NotificationType="info"):AppNotification { return {id:crypto.randomUUID(),title,message,type,createdAt:new Date().toISOString(),read:false}; }
+export type NotificationSeverity = "info" | "success" | "warning" | "error";
+export interface AppNotification {
+ id: string;
+ title: string;
+ message: string;
+ severity: NotificationSeverity;
+ createdAt: string;
+ read: boolean;
+}
+export function makeNotification(
+ title: string,
+ message: string,
+ severity: NotificationSeverity = "info"
+): AppNotification {
+ return {
+ id: crypto.randomUUID(),
+ title,
+ message,
+ severity,
+ createdAt: new Date().toISOString(),
+ read: false,
+ };
+}
