@@ -73,9 +73,48 @@ const CNM_SPECTACLE_VIVANT_TEMPLATE: ApplicationTemplate = {
   { id: "budget", label: "Budget prévisionnel détaillé", attachmentLabelHints: ["budget", "prévisionnel", "previsionnel"], required: true },
  ],
 };
+const CNM_MUSIQUE_EN_IMAGES_TEMPLATE: ApplicationTemplate = {
+ id: "CNM_MUSIQUE_EN_IMAGES_V1",
+ dispositifId: "CNM_MUSIQUE_EN_IMAGES",
+ version: "1.0",
+ sourceUrl: "https://cnm.fr/aides-financieres/aide-a-la-production-de-musique-en-images/",
+ fetchedAt: "2026-09-26",
+ generationNote:
+ "Liste préparatoire construite par Subvento à partir des informations publiques CNM mises à jour le 12 mars 2026. Ce n'est PAS une copie du fichier de demande officiel. Le CNM demande de télécharger le fichier de demande, de le compléter puis de le déposer sur monespacepro.cnm.fr. Vérifiez le fichier officiel avant tout dépôt réel.",
+ fields: [
+  { id: "structure_name", label: "Nom de la structure", type: "text", required: true, sourcePath: "profile.name" },
+  { id: "siret", label: "SIRET", type: "text", required: true, sourcePath: "profile.siret" },
+  { id: "legal_representative", label: "Représentant légal", type: "text", required: true, sourcePath: "profile.legal_representative_name" },
+  { id: "address", label: "Adresse de la structure", type: "text", required: true, sourcePath: "profile.address" },
+  { id: "email", label: "E-mail de contact", type: "text", required: true, sourcePath: "profile.email" },
+  { id: "phone", label: "Téléphone", type: "text", required: false, sourcePath: "profile.phone" },
+  { id: "cnm_space_id", label: "Identifiant espace CNM", type: "text", required: true, sourcePath: "profile.affiliations.cnm_space_id" },
+  { id: "main_activity", label: "Activité principale de la structure", type: "text", required: true, helpText: "Le CNM indique que l'activité principale doit être l'enregistrement sonore ou l'édition musicale." },
+  { id: "artist_employer", label: "Structure employeuse des artistes", type: "text", required: true, helpText: "À confirmer par le demandeur." },
+  { id: "majority_costs", label: "Prise en charge majoritaire des coûts audiovisuels", type: "text", required: true, helpText: "Le demandeur doit prendre en charge la majorité des coûts de production audiovisuelle." },
+  { id: "project_title", label: "Titre du projet / vidéomusique", type: "text", required: true, sourcePath: "project.title" },
+  { id: "project_description", label: "Présentation du projet de vidéomusique", type: "textarea", required: true, sourcePath: "project.description", draftable: true },
+  { id: "phonographic_news", label: "Actualité phonographique liée au projet", type: "textarea", required: true, helpText: "Décrivez la sortie phonographique à laquelle la vidéomusique est liée." },
+  { id: "territory", label: "Territoire", type: "text", required: false, sourcePath: "project.territory" },
+  { id: "target_release_date", label: "Date de sortie visée", type: "date", required: true, sourcePath: "project.target_release_date" },
+  { id: "total_budget", label: "Budget prévisionnel total (€)", type: "number", required: true, sourcePath: "project.estimated_budget" },
+  { id: "requested_amount", label: "Montant de l'aide demandée (€)", type: "number", required: true },
+  { id: "artistic_presentation", label: "Présentation artistique", type: "textarea", required: true, draftable: true },
+  { id: "development_strategy", label: "Stratégie de diffusion de la vidéomusique", type: "textarea", required: true, draftable: true },
+ ],
+ documentRequirements: [
+  { id: "rib", label: "RIB", vaultKind: "rib_doc_id", required: true },
+  { id: "kbis", label: "Extrait Kbis / SIRENE", vaultKind: "kbis_doc_id", required: true },
+  { id: "budget", label: "Budget prévisionnel détaillé", attachmentLabelHints: ["budget", "prévisionnel", "previsionnel"], required: true },
+  { id: "production_docs", label: "Éléments de production audiovisuelle", attachmentLabelHints: ["devis", "production", "audiovisuel", "tournage", "clip"], required: true },
+  { id: "press_kit", label: "Dossier de presse / présentation du projet", attachmentLabelHints: ["presse", "press", "présentation", "presentation"], required: false },
+ ],
+};
+
 const TEMPLATES_BY_DISPOSITIF: Partial<Record<DispositifId, ApplicationTemplate>> = {
  CNM_PROD_PHONO: CNM_PROD_PHONO_TEMPLATE,
  CNM_SPECTACLE_VIVANT: CNM_SPECTACLE_VIVANT_TEMPLATE,
+ CNM_MUSIQUE_EN_IMAGES: CNM_MUSIQUE_EN_IMAGES_TEMPLATE,
 };
 export const cnmConnector: FundingProviderConnector = {
  organismeId: "CNM",
