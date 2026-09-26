@@ -41,10 +41,44 @@ const ADAMI_365_TEMPLATE: ApplicationTemplate = {
  ],
 };
 
+
+const ADAMI_2D3D_TEMPLATE: ApplicationTemplate = {
+ id: "ADAMI_2D3D_2026_V1",
+ dispositifId: "ADAMI_ENREGISTREMENT_2D3D",
+ version: "1.0",
+ sourceUrl: "https://www.adami.fr/que-fait-ladami-pour-moi/cherche-financement-projet-artistique/aide-production-enregistrement-promotion/",
+ fetchedAt: "2026-09-26",
+ generationNote:
+  "Préparation Subvento fondée sur les informations publiques Adami relatives à la production d'un enregistrement et à sa promotion. Ce n'est PAS le formulaire i-DA ; les conditions et pièces affichées par l'Adami au moment du dépôt restent la référence.",
+ fields: [
+  { id:"structure_name", label:"Structure porteuse", type:"text", required:true, sourcePath:"profile.structure.name" },
+  { id:"siret", label:"SIRET", type:"text", required:true, sourcePath:"profile.structure.siret" },
+  { id:"artist_name", label:"Artiste / groupe", type:"text", required:true, sourcePath:"profile.artist_name" },
+  { id:"project_title", label:"Titre de l'enregistrement", type:"text", required:true, sourcePath:"project.title" },
+  { id:"project_description", label:"Présentation de l'enregistrement", type:"textarea", required:true, sourcePath:"project.description", draftable:true },
+  { id:"performer_count", label:"Nombre d'artistes-interprètes salariés", type:"number", required:true, helpText:"Le plafond de l'aide à l'enregistrement peut atteindre 20 000 € lorsque plus de 20 artistes-interprètes sont salariés ; sinon le plafond annoncé est de 15 000 €." },
+  { id:"recording_budget", label:"Budget de production de l'enregistrement (€)", type:"number", required:true, sourcePath:"project.estimated_budget" },
+  { id:"audiovisual_requested", label:"Volet production audiovisuelle demandé", type:"select", required:true, options:[{value:"yes",label:"Oui"},{value:"no",label:"Non"}], helpText:"Complément annoncé jusqu'à 2 500 €, sous réserve des conditions du dispositif." },
+  { id:"audiovisual_plan", label:"Présentation du projet audiovisuel", type:"textarea", required:false, draftable:true },
+  { id:"promotion_requested", label:"Volet promotion demandé", type:"select", required:true, options:[{value:"yes",label:"Oui"},{value:"no",label:"Non"}], helpText:"Complément annoncé jusqu'à 2 500 €, sous réserve des conditions du dispositif." },
+  { id:"promotion_plan", label:"Plan de promotion", type:"textarea", required:false, draftable:true },
+  { id:"production_schedule", label:"Calendrier de production et de sortie", type:"textarea", required:true, draftable:true },
+ ],
+ documentRequirements: [
+  { id:"budget", label:"Budget prévisionnel détaillé", attachmentLabelHints:["budget","prévisionnel","previsionnel"], required:true },
+  { id:"performer_employment", label:"Contrats / éléments justifiant le salariat des artistes-interprètes", attachmentLabelHints:["contrat","artiste","interprète","interprete","paie","engagement"], required:true },
+  { id:"recording_presentation", label:"Présentation artistique et technique de l'enregistrement", attachmentLabelHints:["présentation","presentation","artistique","enregistrement"], required:true },
+  { id:"audiovisual_materials", label:"Éléments du projet audiovisuel, le cas échéant", attachmentLabelHints:["clip","vidéo","video","audiovisuel","devis"], required:false },
+  { id:"promotion_materials", label:"Éléments du plan de promotion, le cas échéant", attachmentLabelHints:["promotion","marketing","presse","attaché","attache"], required:false },
+ ],
+};
+
 export const adamiConnector: FundingProviderConnector = {
  organismeId: "ADAMI",
  capabilities: ["prefill","document_matching","export"],
  getApplicationTemplate(dispositifId) {
-  return dispositifId === "ADAMI_365" ? ADAMI_365_TEMPLATE : null;
+  if (dispositifId === "ADAMI_365") return ADAMI_365_TEMPLATE;
+  if (dispositifId === "ADAMI_ENREGISTREMENT_2D3D") return ADAMI_2D3D_TEMPLATE;
+  return null;
  },
 };
