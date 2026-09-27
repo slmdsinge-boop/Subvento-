@@ -4,6 +4,7 @@ import { cnmConnector } from "./cnmConnector";
 import { sacemConnector } from "./sacemConnector";
 import { adamiConnector } from "./adamiConnector";
 import { spedidamConnector } from "./spedidamConnector";
+import { dracConnector } from "./dracConnector";
 export type { FundingProviderConnector } from "./types";
 export type { ConnectorCapability } from "../applicationTemplate";
 export { hasCapability } from "./types";
@@ -20,6 +21,7 @@ const CONNECTORS: Partial<Record<OrganismeId, FundingProviderConnector>> = {
  SACEM: sacemConnector,
  ADAMI: adamiConnector,
  SPEDIDAM: spedidamConnector,
+ DRAC: dracConnector,
 };
 export function getConnector(organismeId: OrganismeId): FundingProviderConnector {
  return CONNECTORS[organismeId] ?? fallbackConnector(organismeId);
