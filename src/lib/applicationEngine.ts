@@ -127,6 +127,11 @@ export function resolveApplicationInstance(template: ApplicationTemplate, profil
  return { fields, documents: documentsResolved, checks, requiredFieldsTotal: requiredFields.length, requiredFieldsFilled, requiredFieldsToConfirm, requiredFieldsMissing, requiredDocumentsTotal: requiredDocs.length, requiredDocumentsFound, completeness: totalRequired === 0 ? 100 : Math.round((totalDone / totalRequired) * 100) };
 }
 
+export function formatApplicationFieldValue(field: ApplicationFieldDef, value: string): string {
+ if(field.type!=="select"||!value)return value;
+ return field.options?.find((option)=>option.value===value)?.label??value;
+}
+
 export function buildExportSummary(template: ApplicationTemplate, organisme: Organisme, dispositif: Dispositif, instance: ApplicationInstance, projectTitle: string): string {
  const lines: string[] = [];
  lines.push("SUBVENTO — Récapitulatif de dossier");
@@ -134,7 +139,7 @@ export function buildExportSummary(template: ApplicationTemplate, organisme: Org
  lines.push(`Vérifiez chaque information sur : ${dispositif.officialUrl}`);
  lines.push("", `Organisme : ${organisme.fullName}`, `Dispositif : ${dispositif.name}`, `Projet : ${projectTitle || "(sans titre)"}`, `Généré le : ${new Date().toLocaleDateString("fr-FR")}`, `Note : ${template.generationNote}`, "");
  lines.push(`— INFORMATIONS (${instance.requiredFieldsFilled}/${instance.requiredFieldsTotal} champs obligatoires) —`);
- instance.fields.forEach((f) => lines.push(`${f.field.label} : ${f.value || "(non renseigné)"}`));
+ instance.fields.forEach((f) => lines.push(`${f.field.label} : ${formatApplicationFieldValue(f.field,f.value) || "(non renseigné)"}`));
  lines.push("", `— DOCUMENTS (${instance.requiredDocumentsFound}/${instance.requiredDocumentsTotal} obligatoires trouvés) —`);
  instance.documents.forEach((d) => lines.push(`${d.requirement.label} : ${d.match ? d.match.fileName : "manquant"}`));
  lines.push("", "— CONTRÔLES —");
