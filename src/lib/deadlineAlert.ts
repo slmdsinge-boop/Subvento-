@@ -1,0 +1,18 @@
+export type DeadlineStatus="normal"|"soon"|"urgent"|"today"|"overdue";
+
+export interface DeadlineAlert {
+ status:DeadlineStatus;
+ daysLeft:number;
+ label:string;
+}
+
+export function getDeadlineAlert(deadline:string|Date,now:Date=new Date()):DeadlineAlert|null {
+ const target=deadline instanceof Date?deadline:new Date(deadline);
+ if(Number.isNaN(target.getTime())||Number.isNaN(now.getTime()))return null;
+ const daysLeft=Math.ceil((target.getTime()-now.getTime())/86400000);
+ if(daysLeft<0)return {status:"overdue",daysLeft,label:"Échéance dépassée"};
+ if(daysLeft===0)return {status:"today",daysLeft,label:"Échéance aujourd’hui"};
+ if(daysLeft<=7)return {status:"urgent",daysLeft,label:`${daysLeft} jour${daysLeft>1?"s":""} restant${daysLeft>1?"s":""}`};
+ if(daysLeft<=30)return {status:"soon",daysLeft,label:`${daysLeft} jours restants`};
+ return {status:"normal",daysLeft,label:`${daysLeft} jours restants`};
+}
