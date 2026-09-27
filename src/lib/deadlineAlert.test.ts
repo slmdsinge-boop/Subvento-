@@ -1,5 +1,5 @@
 import { describe,expect,it } from "vitest";
-import { getDeadlineAlert } from "./deadlineAlert";
+import { allowsDeadlineValidation,getDeadlineAlert } from "./deadlineAlert";
 
 describe("getDeadlineAlert",()=>{
  const now=new Date("2026-09-27T12:00:00+02:00");
@@ -30,5 +30,12 @@ describe("getDeadlineAlert",()=>{
 
  it("refuse une date invalide",()=>{
   expect(getDeadlineAlert("pas-une-date",now)).toBeNull();
+ });
+ it("bloque uniquement une échéance vérifiée déjà dépassée",()=>{
+  expect(allowsDeadlineValidation(getDeadlineAlert("2026-09-26T10:00:00+02:00",now))).toBe(false);
+  expect(allowsDeadlineValidation(getDeadlineAlert("2026-09-27T23:59:00+02:00",now))).toBe(true);
+  expect(allowsDeadlineValidation(getDeadlineAlert("2026-10-03T23:59:00+02:00",now))).toBe(true);
+  expect(allowsDeadlineValidation(null)).toBe(true);
+  expect(allowsDeadlineValidation(undefined)).toBe(true);
  });
 });
