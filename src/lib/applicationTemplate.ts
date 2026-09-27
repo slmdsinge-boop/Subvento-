@@ -47,6 +47,18 @@ export const CONNECTOR_CAPABILITY_LABELS: Record<ConnectorCapability, string> = 
  api_submission: "D√©p√¥t automatique (API)",
  status_tracking: "Suivi du statut",
 };
+export type OfficialFormFormat = "pdf" | "xlsx";
+export interface OfficialFormDefinition {
+ /** URL directe ou page officielle depuis laquelle le formulaire a été récupéré. */
+ sourceUrl: string;
+ format: OfficialFormFormat;
+ fileName: string;
+ /** Version/date visible sur le document officiel lorsque disponible. */
+ versionLabel?: string;
+ fetchedAt: string;
+ /** Correspondance champ Subvento -> identifiant de champ du formulaire officiel. */
+ fieldMap: Record<string,string>;
+}
 export interface ApplicationTemplate {
  id: string;
  dispositifId: DispositifId;
@@ -62,4 +74,6 @@ export interface ApplicationTemplate {
  * d'informations publiques. Ne jamais pr√©senter l'un comme l'autre.
  */
  generationNote: string;
+ /** Présent uniquement lorsqu’un véritable formulaire officiel a été identifié et mappé. */
+ officialForm?: OfficialFormDefinition;
 }
