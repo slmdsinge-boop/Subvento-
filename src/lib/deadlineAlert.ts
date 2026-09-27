@@ -17,3 +17,8 @@ export function getDeadlineAlert(deadline:string|Date,now:Date=new Date()):Deadl
  if(daysLeft<=30)return {status:"soon",daysLeft,label:`${daysLeft} jours restants`};
  return {status:"normal",daysLeft,label:`${daysLeft} jours restants`};
 }
+
+/** A verified expired deadline prevents presenting a new application as ready to submit. */
+export function allowsDeadlineValidation(alert:DeadlineAlert|null|undefined):boolean {
+ return alert?.status!=="overdue";
+}
