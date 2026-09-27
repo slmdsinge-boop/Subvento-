@@ -141,3 +141,36 @@ export function buildExportSummary(template: ApplicationTemplate, organisme: Org
  instance.checks.forEach((c) => lines.push(`${c.passed ? "OK" : "À VÉRIFIER"} — ${c.label}`));
  return lines.join("\n");
 }
+
+
+export interface OfficialFormPrefillEntry {
+ applicationFieldId: string;
+ officialFieldId: string;
+ label: string;
+ value: string;
+ status: FieldStatus;
+}
+export interface OfficialFormPrefillManifest {
+ available: boolean;
+ format: "pdf" | "xlsx" | null;
+ fileName: string | null;
+ sourceUrl: string | null;
+ entries: OfficialFormPrefillEntry[];
+ unmappedRequiredFieldIds: string[];
+}
+
+/**
+ * Construit un manifeste déterministe de préremplissage.
+ * Il ne modifie jamais un fichier et ne prétend jamais qu'un formulaire officiel existe
+ * si le template n'en référence pas explicitement un.
+ */
+export function buildOfficialFormPrefillManifest(template: ApplicationTemplate, instance: ApplicationInstance): OfficialFormPrefillManifest {
+ const form=template.officialForm;
+ if(!form)return {available:false,format:null,fileName:null,sourceUrl:null,entries:[],unmappedRequiredFieldIds:[]};
+ const entries=instance.fields.flatMap((resolved)=>{
+  const officialFieldId=form.fieldMap[resolved.field.id];
+  return officialFieldId?[{applicationFieldId:resolved.field.id,officialFieldId,label:resolved.field.label,value:resolved.value,status:resolved.status}]:[];
+ });
+ const unmappedRequiredFieldIds=instance.fields.filter((resolved)=>resolved.field.required&&!form.fieldMap[resolved.field.id]).map((resolved)=>resolved.field.id);
+ return {available:true,format:form.format,fileName:form.fileName,sourceUrl:form.sourceUrl,entries,unmappedRequiredFieldIds};
+}
