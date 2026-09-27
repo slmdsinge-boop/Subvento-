@@ -30,6 +30,13 @@ describe("buildOfficialFormPrefillManifest",()=>{
   expect(manifest.entries[0]).toMatchObject({applicationFieldId:"project_title",officialFieldId:"pdf_project_title",value:"Album X"});
   expect(manifest.unmappedRequiredFieldIds).toEqual([]);
  });
+ it("accepte un formulaire web officiel sans inventer de fichier à télécharger",()=>{
+  const template:ApplicationTemplate={...baseTemplate,officialForm:{sourceUrl:"https://demarches.numerique.gouv.fr/demarches/exemple",format:"web",fetchedAt:"2026-09-27",fieldMap:{project_title:"project_title"}}};
+  const manifest=buildOfficialFormPrefillManifest(template,instance);
+  expect(manifest.format).toBe("web");
+  expect(manifest.fileName).toBeNull();
+  expect(manifest.entries[0]?.value).toBe("Album X");
+ });
  it("signale tout champ obligatoire non mappé",()=>{
   const template:ApplicationTemplate={...baseTemplate,officialForm:{sourceUrl:"https://example.invalid/form.xlsx",format:"xlsx",fileName:"form.xlsx",fetchedAt:"2026-09-27",fieldMap:{}}};
   expect(buildOfficialFormPrefillManifest(template,instance).unmappedRequiredFieldIds).toEqual(["project_title"]);
