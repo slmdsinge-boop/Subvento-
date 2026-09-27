@@ -47,12 +47,12 @@ export const CONNECTOR_CAPABILITY_LABELS: Record<ConnectorCapability, string> = 
  api_submission: "D√©p√¥t automatique (API)",
  status_tracking: "Suivi du statut",
 };
-export type OfficialFormFormat = "pdf" | "xlsx";
+export type OfficialFormFormat = "pdf" | "xlsx" | "web";
 export interface OfficialFormDefinition {
  /** URL directe ou page officielle depuis laquelle le formulaire a été récupéré. */
  sourceUrl: string;
  format: OfficialFormFormat;
- fileName: string;
+ fileName?: string;
  /** Version/date visible sur le document officiel lorsque disponible. */
  versionLabel?: string;
  fetchedAt: string;
