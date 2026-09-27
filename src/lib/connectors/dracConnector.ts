@@ -7,7 +7,8 @@ const DRAC_ADSV_MUSIQUE_TEMPLATE: ApplicationTemplate = {
  version: "1.0",
  sourceUrl: "https://www.culture.gouv.fr/catalogue-des-demarches-et-subventions/subvention/aides-aux-equipes-independantes-aides-deconcentrees-au-spectacle-vivant-adsv",
  fetchedAt: "2026-09-27",
- generationNote: "Préparation Subvento fondée sur la fiche nationale ADSV du ministère de la Culture. Les calendriers, contacts et modalités sont régionaux : Subvento ne remplace pas le formulaire officiel ni la vérification auprès de la DRAC/DAC compétente.",
+ generationNote: "Préparation Subvento fondée sur la fiche nationale ADSV du ministère de la Culture. Le formulaire web officiel Aide au projet 2027 est identifié, mais aucun champ du portail n’est considéré comme préremplissable tant que son identifiant n’a pas été vérifié. Les calendriers et contacts restent régionaux.",
+ officialForm:{sourceUrl:"https://demarche.numerique.gouv.fr/commencer/adsv_projet-2027",format:"web",versionLabel:"Aide au projet 2027",fetchedAt:"2026-09-27",fieldMap:{}},
  fields: [
   {id:"structure_name",label:"Structure porteuse",type:"text",required:true,sourcePath:"profile.structure.name"},
   {id:"siret",label:"SIRET",type:"text",required:true,sourcePath:"profile.structure.siret"},
