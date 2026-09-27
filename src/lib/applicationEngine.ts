@@ -152,7 +152,7 @@ export interface OfficialFormPrefillEntry {
 }
 export interface OfficialFormPrefillManifest {
  available: boolean;
- format: "pdf" | "xlsx" | null;
+ format: "pdf" | "xlsx" | "web" | null;
  fileName: string | null;
  sourceUrl: string | null;
  entries: OfficialFormPrefillEntry[];
@@ -172,5 +172,5 @@ export function buildOfficialFormPrefillManifest(template: ApplicationTemplate, 
   return officialFieldId?[{applicationFieldId:resolved.field.id,officialFieldId,label:resolved.field.label,value:resolved.value,status:resolved.status}]:[];
  });
  const unmappedRequiredFieldIds=instance.fields.filter((resolved)=>resolved.field.required&&!form.fieldMap[resolved.field.id]).map((resolved)=>resolved.field.id);
- return {available:true,format:form.format,fileName:form.fileName,sourceUrl:form.sourceUrl,entries,unmappedRequiredFieldIds};
+ return {available:true,format:form.format,fileName:form.fileName??null,sourceUrl:form.sourceUrl,entries,unmappedRequiredFieldIds};
 }
