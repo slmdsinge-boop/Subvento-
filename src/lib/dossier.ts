@@ -79,3 +79,8 @@ export function dossierProgress(dossier:Dossier):number{
   default:return 0;
  }
 }
+
+export function normalizeDepositConfirmationRef(value:string):string|null{
+ const normalized=value.trim();
+ return normalized||null;
+}
